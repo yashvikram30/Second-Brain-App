@@ -5,21 +5,18 @@ import mongoose from "mongoose";
 import {z} from "zod";
 import bcrypt from "bcrypt";
 import cors from "cors";
-import { UserModel } from "./db";
-
+import { contentModel, UserModel } from "./db";
+import { userMiddleware } from "./middleware";
 dotenv.config();
 
-
 const app = express();
-
-const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-const url: string= String(process.env.MONGO_URL);
-const JWT_SECRET:string = String(process.env.JWT_SECRET);
-const JWT_EXPIRES_IN = '24h';
-const COOKIE_MAX_AGE = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
 app.use(express.json());
 app.use(cors());
+
+const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const url: string = String(process.env.MONGO_URL);
+const JWT_SECRET = (process.env.JWT_SECRET);
+console.log(typeof(JWT_SECRET)," ",  JWT_SECRET)
 
 interface SigninRequest {
     username: string;
@@ -31,9 +28,6 @@ const signupSchema = z.object({
     username: z.string(),
     password: z.string()
       .min(8, 'Password must be at least 8 characters')
-      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .regex(/[0-9]/, 'Password must contain at least one number')
 });
 
   
@@ -87,54 +81,68 @@ app.post('/api/v1/signup', async function(req:any,res:any) {
     }
 });
 
-app.post('/api/v1/signin',async(req:any,res:any)=>{
-    try{
-        // Step:1 Check if the user exists
-        const { username, password } = req.body;
-        const userAccount = await UserModel.findOne(username);
+app.post('/api/v1/signin', async (req: any, res: any) => {
+  try {
+      // Step 1: Check if the user exists
+      const { username, password } = req.body;
+      const userAccount = await UserModel.findOne({ username });
 
-        if(!userAccount){
-            return res.status(403).json({
-                message: 'User does not exist'
-            })
-        }
+      if (!userAccount) {
+          return res.status(403).json({
+              message: 'User does not exist',
+          });
+      }
 
-        // Step:2 Check if the password matches with Bcrypt
-        const confirmedUser = bcrypt.compare(password,userAccount.password);
-        if(!confirmedUser){
-            return res.json(403).json({
-                message: 'Password is incorrect'
-            })
-        }
+      // Step 2: Check if the password matches with Bcrypt
+      const confirmedUser = await bcrypt.compare(password, userAccount.password);
+      if (!confirmedUser) {
+          return res.status(403).json({
+              message: 'Password is incorrect',
+          });
+      }
 
-        // Step:3 Return a jwt token to the user
-        const token = jwt.sign({
-            id: userAccount._id
-        },JWT_SECRET,{
-            expiresIn: JWT_EXPIRES_IN
-        });
+      // Step 3: Return a JWT token to the user
+      const token = jwt.sign(
+          { id: userAccount._id },
+          String(JWT_SECRET),
+      );
 
-        // Step:4 Return the token as a cookie to the user in the header
-        res.cookie('token', token, {
-            httpOnly: true,           // Prevents JavaScript access to cookie
-            secure: process.env.NODE_ENV === 'production', // HTTPS only in production
-            sameSite: 'strict',         // CSRF protection
-            maxAge: COOKIE_MAX_AGE,       
-            path: '/',                // Cookie is available for all paths
-        });
-    }
-    catch(e:unknown){
-        res.status(500).json({
-            message: "Error during sign-in",
-            error: e,
-        });
-    }
-    
-})
+      // Step 4: Return the token as a cookie to the user in the header
+      res.cookie('token', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
+          path: '/',
+      });
+
+      // Step 5: Send a success response
+      return res.status(200).json({
+          message: 'Sign-in successful',
+          token,
+      });
+  } catch (e: unknown) {
+      console.error(e); // Logs the actual error
+      res.status(500).json({
+          message: 'Error during sign-in. Please try again later.',
+      });
+  }
+});
 
 
-app.post('/api/v1/content',()=>{
-    
+app.post('/api/v1/content',userMiddleware, async (req,res)=> {
+    const {link,type,title} = req.body;
+    await contentModel.create({
+      link,
+      type,
+      title,
+      //@ts-ignore
+      userId: req.userId,
+      tags: []
+    })
+
+    res.json({
+      message: "Content added"
+    })
 })
 
 
