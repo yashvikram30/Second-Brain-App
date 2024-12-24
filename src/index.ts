@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import {z} from "zod";
 import bcrypt from "bcrypt";
 import cors from "cors";
-import { contentModel, UserModel } from "./db";
+import { Content, User } from "./db";
 import { userMiddleware } from "./middleware";
 dotenv.config();
 
@@ -16,7 +16,6 @@ app.use(cors());
 const port: number = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const url: string = String(process.env.MONGO_URL);
 const JWT_SECRET = (process.env.JWT_SECRET);
-console.log(typeof(JWT_SECRET)," ",  JWT_SECRET)
 
 interface SigninRequest {
     username: string;
@@ -48,7 +47,7 @@ app.post('/api/v1/signup', async function(req:any,res:any) {
       const { username, password } = validationResult.data;
   
       // Step 2: Check if user already exists
-      const existingUser = await UserModel.findOne({ username });
+      const existingUser = await User.findOne({ username });
       if (existingUser) {
         return res.status(403).json({
           message: 'User with this username already exists'
@@ -59,7 +58,7 @@ app.post('/api/v1/signup', async function(req:any,res:any) {
       const hashedPassword = await bcrypt.hash(password, 10);
   
       // Step 4: Create user
-      const newUser = await UserModel.create({
+      const newUser = await User.create({
         username,
         password: hashedPassword
       });
@@ -85,7 +84,7 @@ app.post('/api/v1/signin', async (req: any, res: any) => {
   try {
       // Step 1: Check if the user exists
       const { username, password } = req.body;
-      const userAccount = await UserModel.findOne({ username });
+      const userAccount = await User.findOne({ username });
 
       if (!userAccount) {
           return res.status(403).json({
@@ -131,7 +130,7 @@ app.post('/api/v1/signin', async (req: any, res: any) => {
 
 app.post('/api/v1/content',userMiddleware, async (req,res)=> {
     const {link,type,title} = req.body;
-    await contentModel.create({
+    await Content.create({
       link,
       type,
       title,
@@ -146,13 +145,29 @@ app.post('/api/v1/content',userMiddleware, async (req,res)=> {
 })
 
 
-app.get('/api/v1/content',()=>{
-    
+app.get('/api/v1/content',userMiddleware,async(req,res)=>{
+    // @ts-ignore
+    const userId = req.userId;
+    const content = await Content.find({
+      userId: userId
+    }).populate("userId","username") 
+    // basically this will return the username, which will allow us to update it on frontend as well
+    res.json({
+      content
+    })
 })
 
 
-app.delete('/api/v1/content',()=>{
-    
+app.delete('/api/v1/content',userMiddleware,async (req,res)=>{
+    const contentId = req.body.contentId;
+    await Content.deleteMany({
+      contentId,
+      // @ts-ignore
+      userId: req.userId
+    })
+    res.json({
+      message: "Deleted"
+    })
 })
 
 
