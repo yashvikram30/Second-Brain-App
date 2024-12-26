@@ -5,8 +5,9 @@ import mongoose from "mongoose";
 import {z} from "zod";
 import bcrypt from "bcrypt";
 import cors from "cors";
-import { Content, User } from "./db";
+import { Content, Link, User } from "./db";
 import { userMiddleware } from "./middleware";
+import { random } from "./utils";
 dotenv.config();
 
 const app = express();
@@ -171,13 +172,91 @@ app.delete('/api/v1/content',userMiddleware,async (req,res)=>{
 })
 
 
-app.post('/api/v1/brain/share',()=>{
+app.post('/api/v1/brain/share',userMiddleware,async(req,res)=>{
+  // this obtains whether link is to be shared or not from the user
+    const {share} = req.body;
     
+  // if the user inputs true, i.e. the brain is to be shared
+    if(share){
+
+      // check if the hash link already exists, and if it does, return it to the user
+      const existingLink = await Link.findOne({
+        //@ts-ignore
+        userId: req.userId
+      })
+      if(existingLink){
+        res.json({
+          hash: existingLink.hash
+        })
+        return;
+      }
+
+      // if the link does not exist already, then create a hash link for the user
+      const createdLink = await Link.create({
+        //@ts-ignore
+        userId: req.userId,
+        hash: random(10)
+      })
+
+      res.json({
+        message: "Sharable link created",
+        hash: createdLink.hash
+      })
+    } 
+    // if the user inputs false, i.e. brain is not to be shared, then delete the brain
+    else {  
+      await Link.deleteOne({
+        //@ts-ignore
+        userId: req.userId
+      })
+
+      res.json({
+        message: "Removed the sharable link!"
+      })
+    }
 })
 
-app.post('/api/v1/brain/:shareLink',()=>{
-    
+app.post('/api/v1/brain/:shareLink',async (req, res)=>{
+    // obtaining the hash from the params  
+    const hash = req.params.shareLink;
+
+    // search in the database for the input
+    const link = await Link.findOne({
+      hash
+    })
+
+    // if the hash link is not found in the database
+    if(!link){
+      res.status(411).json({
+        message: "Sorry, your link seems to be wrong"
+      })
+      return;
+    }
+
+    // now find the user and the content it has corresponding to the link they posted
+    const content = await Content.findOne({
+      userId: link.userId
+    })
+
+    const user = await User.findOne({
+      _id: link.userId
+    })
+
+    // if the user is not found, just in case, then return this, else return the contents of the link
+    if (!user) {
+      res.status(411).json({
+          message: "user not found, error should ideally not happen"
+      })
+      return;
+    }
+
+    res.json({
+      username: user.username,
+      content: content
+    })
+
 })
+
 
 main()
 
