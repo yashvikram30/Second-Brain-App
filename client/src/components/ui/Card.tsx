@@ -12,9 +12,9 @@ interface CardProps {
 
 const Card = ({ title, link, type }: CardProps) => {
   return (
-    <div className="px-2 py-4 bg-white rounded-md border-gray-200 max-w-80 border min-h-48 min-w-72">
+    <div className="px-2 py-4 bg-white rounded-md border-gray-200 max-w-80 border min-h-48 min-w-80">
       {/* top component */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center px-2">
         <div className="flex items-center text-gray-500">
           {type === "twitter" && <Twitter size="md" />}
           {type === "youtube" && <Youtube size="md"/>}
@@ -37,7 +37,7 @@ const Card = ({ title, link, type }: CardProps) => {
       https://www.youtube.com/watch?v=scg3GkMpoKI
       "https://www.youtube.com/embed/scg3GkMpoKI?si=XYxuV6SvkkD7StKO"
       */}
-      <div className="pt-4 ">
+      <div className="pt-4 h-44">
         {type === "youtube" && (
           <iframe
             width="w-full"
@@ -51,7 +51,7 @@ const Card = ({ title, link, type }: CardProps) => {
         )}
 
         {type === "twitter" && (
-          <blockquote className="twitter-tweet">
+          <blockquote className="twitter-tweet h-0 w-full">
             <a href={link.replace("x.com", "twitter.com")}></a>
           </blockquote>
         )}
