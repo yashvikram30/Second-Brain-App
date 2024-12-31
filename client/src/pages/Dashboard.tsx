@@ -1,19 +1,30 @@
+import { useState } from "react";
 import CreateContentModel from "../components/CreateContentModel";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import Sidebar from "../components/ui/Sidebar";
 import { Plus } from "../icons/Plus";
 import Share from "../icons/Share";
-import { useState } from "react";
 
 function Dashboard() {
   const [open, setOpen] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
   return (
-    <div>
-      <Sidebar />
-      <div className="p-4 ml-72 min-h-screen bg-gray-100 border-2">
+    <div className="flex">
+      <Sidebar isExpanded={isSidebarExpanded} onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)} />
+      
+      <div 
+        className={`
+          p-4 min-h-screen bg-gray-100 flex-1
+          transition-all duration-300 ease-in-out
+          ${isSidebarExpanded ? 'ml-64' : 'ml-16'}
+        `}
+      >
         <CreateContentModel open={open} onClose={() => setOpen(false)} />
-        <div className="my-2 flex justify-end w-full gap-5">
+        
+        {/* Buttons Container */}
+        <div className="my-2 flex flex-wrap justify-end w-full gap-3 sm:gap-5">
           <Button
             variant="primary"
             text="Add Content"
@@ -29,17 +40,18 @@ function Dashboard() {
           />
         </div>
 
-        <div className="flex gap-2">
-            <Card
+        {/* Cards Container */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <Card
             title="youtube"
             link="https://www.youtube.com/watch?v=scg3GkMpoKI"
             type="youtube"
-            />
-            <Card
+          />
+          <Card
             title="twitter"
             link="https://x.com/narendramodi/status/1872328464658808947"
             type="twitter"
-            />
+          />
         </div>
       </div>
     </div>

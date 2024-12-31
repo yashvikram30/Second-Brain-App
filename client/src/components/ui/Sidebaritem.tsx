@@ -1,17 +1,18 @@
-import { ReactElement } from "react"
+import React from "react";
 
-interface sidebarProps{
-    icon: ReactElement,
-    title: string
+interface SidebaritemProps {
+  icon: React.ReactNode;
+  text: string;
+  isExpanded: boolean;
 }
 
-const Sidebaritem = (props:sidebarProps) => {
+const Sidebaritem: React.FC<SidebaritemProps> = ({ icon, text, isExpanded }) => {
   return (
-    <div className="flex items-center h-12 hover:bg-gray-200 rounded-md transition-all duration-150">
-       <div className="pr-5 pl-3">{props.icon}</div>
-       <div>{props.title}</div>
+    <div className="flex items-center p-4">
+      {icon}
+      {isExpanded && <span className="ml-4">{text}</span>}
     </div>
-  )
-}
+  );
+};
 
-export default Sidebaritem
+export default Sidebaritem;
