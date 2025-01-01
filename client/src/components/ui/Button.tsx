@@ -33,13 +33,13 @@ export default function Button(props: Buttonprops) {
         props.classes
           ? props.classes
           : `
-        ${variantStyles[props.variant]} 
-        ${defaultstyles} 
-        ${sizeStyles[props.size]} 
-        ${props.fullWidth ? "w-full" : ""} 
-        flex justify-center items-center 
-        ${props.loading ? "opacity-50" : ""} 
-        `
+          ${variantStyles[props.variant]} 
+          ${defaultstyles} 
+          ${sizeStyles[props.size]} 
+          ${props.fullWidth ? "w-full" : ""} 
+          flex justify-center items-center 
+          ${props.loading ? "opacity-50" : ""} 
+          `
       }
       disabled={props.loading}
     >
