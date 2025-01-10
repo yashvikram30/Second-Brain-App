@@ -16,7 +16,7 @@ function Dashboard() {
   // Refresh content when modal state changes
   useEffect(() => {
     refresh();
-  }, [modalOpen]);
+  }, [modalOpen,refresh]);
 
   return (
     <div className="flex">

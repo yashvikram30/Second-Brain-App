@@ -13,8 +13,8 @@ export interface Buttonprops {
 }
 
 const variantStyles = {
-  primary: "bg-purple-600 text-white",
-  secondary: "bg-purple-200 text-purple-500",
+  primary: "bg-gray-800 text-white",
+  secondary: "bg-white text-black",
 };
 
 const sizeStyles = {
