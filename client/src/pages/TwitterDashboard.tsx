@@ -17,6 +17,7 @@ export default function TwitterDashboard() {
   // Refresh content when modal state changes
   useEffect(() => {
     refresh();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalOpen]);
 
   return (

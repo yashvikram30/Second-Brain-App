@@ -1,6 +1,6 @@
 import Delete from "../../icons/Delete";
-import Share from "../../icons/Share";
 import Twitter from "../../icons/Twitter";
+import Open from "../../icons/Open";
 import Youtube from "../../icons/Youtube";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
@@ -39,7 +39,7 @@ const Card = ({ title, link, type }: CardProps) => {
         <div className="flex items-center justify-between text-gray-500 min-w-11">
           <div className="pr-2 text-gray-500">
             <a href={link} target="_blank">
-              <Share size="sm" />
+              <Open size="sm" />
             </a>
           </div>
           <div className="text-gray-500">
