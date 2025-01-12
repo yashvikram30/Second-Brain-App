@@ -54,7 +54,7 @@ const Signin = () => {
             fullWidth={true}
             loading={false}
             onClick={signin}
-            classes="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200"
+            classes="w-full py-3 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-lg transition-colors duration-200"
           />
         </div>
       </div>
