@@ -52,7 +52,7 @@ export default function LandingPage() {
               </div>
               <div className="flex justify-center items-center">
                 <Link
-                  to="/Signup"
+                  to={localStorage.getItem("token")?"/dashboard":"/signup"}
                   className="bg-gray-800 text-white font-bold px-8 py-2 rounded-md"
                 >
                   Get Started
