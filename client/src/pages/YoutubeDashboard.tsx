@@ -17,7 +17,7 @@ export default function YoutubeDashboard() {
   // Refresh content when modal state changes
   useEffect(() => {
     refresh();
-  }, [modalOpen, refresh]);
+  }, [modalOpen]);
 
   return (
     <div className="flex">

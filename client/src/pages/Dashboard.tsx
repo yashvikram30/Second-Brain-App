@@ -9,20 +9,22 @@ import { useContent } from "../hooks/useContent";
 
 function Dashboard() {
   // State management
+  // In Dashboard.tsx
   const [modalOpen, setModalOpen] = useState(false);
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const { contents, refresh } = useContent();
 
   // Refresh content when modal state changes
   useEffect(() => {
     refresh();
-  }, [modalOpen,refresh]);
+  }, [modalOpen]);
 
   return (
     <div className="flex">
       <Sidebar
         isExpanded={isSidebarExpanded}
         onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
+        
       />
 
       <div
