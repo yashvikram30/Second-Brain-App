@@ -6,10 +6,12 @@ import Sidebar from "../components/ui/Sidebar";
 import { Plus } from "../icons/Plus";
 import Share from "../icons/Share";
 import { useContent } from "../hooks/useContent";
+import { useNavigate } from "react-router-dom";
 
 export default function TwitterDashboard() {
   // State management
   // In Dashboard.tsxconst [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const { contents, refresh } = useContent();
@@ -17,8 +19,25 @@ export default function TwitterDashboard() {
   // Refresh content when modal state changes
   useEffect(() => {
     refresh();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalOpen]);
+
+  if (!localStorage.getItem("token")) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
+        <h1 className="text-6xl font-bold mb-4">404</h1>
+        <p className="text-lg mb-6">
+          Oops! The page you are looking for doesn't exist.
+        </p>
+        <button
+          className="px-6 py-3 bg-gray-800 text-white font-medium rounded-md shadow hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          onClick={() => navigate("/")}
+        >
+          Go to Home
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex">
