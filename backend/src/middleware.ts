@@ -23,7 +23,7 @@ export const userMiddleware = (req: Request, res: Response, next: NextFunction):
         next();
     } catch (error) {
         console.error("Token verification error:", error); // Log the error
-        res.status(401).json({ message: "Invalid token" });
+        res.status(401).json({ message: "Token verification error" });
     }
     
 };

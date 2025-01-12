@@ -10,6 +10,7 @@ const Delete = (props:IconProps) => {
       strokeWidth={1.5}
       stroke="currentColor"
       className={iconSizeVariant[props.size]}
+      onClick={props.onClick}
     >
       <path
         strokeLinecap="round"

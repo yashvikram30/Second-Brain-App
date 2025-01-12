@@ -2,7 +2,9 @@ import Delete from "../../icons/Delete";
 import Share from "../../icons/Share";
 import Twitter from "../../icons/Twitter";
 import Youtube from "../../icons/Youtube";
-
+import { BACKEND_URL } from "../../config";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface CardProps {
   title: string;
@@ -11,13 +13,26 @@ interface CardProps {
 }
 
 const Card = ({ title, link, type }: CardProps) => {
+
+  const navigate = useNavigate();
+
+  async function deleteContent() {
+    const token = localStorage.getItem("token");
+    await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+      headers: {
+        authorization: token,
+      },
+    });
+    navigate(0); // this will immediately refresh the page as we delete the content
+  }
+
   return (
     <div className="px-2 py-4 bg-white rounded-md border-gray-200 max-w-80 border min-h-48 min-w-80">
       {/* top component */}
       <div className="flex justify-between items-center px-2">
         <div className="flex items-center text-gray-500">
           {type === "twitter" && <Twitter size="md" />}
-          {type === "youtube" && <Youtube size="md"/>}
+          {type === "youtube" && <Youtube size="md" />}
         </div>
         <div className="font-normal flex items-center">{title}</div>
 
@@ -28,7 +43,7 @@ const Card = ({ title, link, type }: CardProps) => {
             </a>
           </div>
           <div className="text-gray-500">
-            <Delete size="sm" />
+            <Delete size="sm" onClick={deleteContent} />
           </div>
         </div>
       </div>
