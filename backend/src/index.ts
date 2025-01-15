@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import {z} from "zod";
 import bcrypt from "bcrypt";
 import cors from "cors";
-import { Content, Link, User } from "./db";
+import { Content, Link, User } from './db';
 import { userMiddleware } from "./middleware";
 import { random } from "./utils";
 dotenv.config();
@@ -130,11 +130,12 @@ app.post('/api/v1/signin', async (req: any, res: any) => {
 
 
 app.post('/api/v1/content',userMiddleware, async (req,res)=> {
-    const {link,type,title} = req.body;
+    const {link,type,title,content} = req.body;
     await Content.create({
       link,
       type,
       title,
+      content,
       //@ts-ignore
       userId: req.userId,
       tags: []
@@ -160,7 +161,7 @@ app.get('/api/v1/content',userMiddleware,async(req,res)=>{
 
 
 app.delete('/api/v1/content',userMiddleware,async (req,res)=>{
-    const contentId = req.body.contentId;
+    const contentId = req.params;
     await Content.deleteOne({
       contentId,
       // @ts-ignore

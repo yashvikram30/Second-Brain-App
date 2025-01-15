@@ -14,12 +14,14 @@ interface createContentInterface {
 enum ContentType {
   Youtube = "youtube",
   Twitter = "twitter",
+  Document = "document"
 }
 
 const CreateContentModel = ({ open, onClose }: createContentInterface) => {
   //these refs are used to keep track of the value input in respective fields
   const titleRef = useRef<HTMLInputElement>(null);
   const linkRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLInputElement>(null);
 
   // type is defined as a state variable varies with the button
   const [type, setType] = useState(ContentType.Youtube);
@@ -28,6 +30,7 @@ const CreateContentModel = ({ open, onClose }: createContentInterface) => {
     //this will fetch the title and the link from the ref, and send it to the backend
     const title = titleRef.current?.value;
     const link = linkRef.current?.value;
+    const content = contentRef.current?.value;
 
     //axios.post("Address",{data to be sent},{headers containing authentication})
     await axios.post(
@@ -36,6 +39,7 @@ const CreateContentModel = ({ open, onClose }: createContentInterface) => {
         link,
         title,
         type,
+        content
       },
       {
         headers: {
@@ -64,7 +68,8 @@ const CreateContentModel = ({ open, onClose }: createContentInterface) => {
               {/* input boxes */}
               <div className="mt-4 flex flex-col justify-center items-center">
                 <Input placeholder="Name" reference={titleRef} />
-                <Input placeholder="Link" reference={linkRef} />
+                {type != ContentType.Document && <Input placeholder="Link" reference={linkRef} />}
+                {type == ContentType.Document && <Input placeholder="Content" reference={contentRef} />}
               </div>
 
               {/* type */}
@@ -84,6 +89,14 @@ const CreateContentModel = ({ open, onClose }: createContentInterface) => {
                   size="md"
                   text="Tweet"
                   onClick={() => setType(ContentType.Twitter)}
+                />
+                <Button
+                  variant={
+                    type === ContentType.Document ? "primary" : "secondary"
+                  }
+                  size="md"
+                  text="Text"
+                  onClick={() => setType(ContentType.Document)}
                 />
               </div>
 

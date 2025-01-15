@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import LandingPage from "./pages/Landing";
 import TwitterDashboard from "./pages/TwitterDashboard";
 import YoutubeDashboard from "./pages/YoutubeDashboard";
+import DocumentDashboard from "./pages/DocumentDashboard";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/twitter" element={<TwitterDashboard />} />
         <Route path="/dashboard/youtube"  element={<YoutubeDashboard/>} />
+        <Route path="/dashboard/text" element={<DocumentDashboard/>}/>
       </Routes>
     </>
   );

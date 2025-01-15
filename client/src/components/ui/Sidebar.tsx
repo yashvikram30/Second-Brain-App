@@ -2,6 +2,7 @@ import Twitter from "../../icons/Twitter";
 import Youtube from "../../icons/Youtube";
 import All from "../../icons/All";
 import Button from "./Button";
+import Document from "../../icons/Document";
 import Sidebaritem from "./Sidebaritem";
 import { Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -52,6 +53,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, onToggle }) => {
           isExpanded={isExpanded}
           onClick={() => {
             navigate("/dashboard/youtube");
+          }}
+        />
+        <Sidebaritem
+          icon={<Document size="md" />}
+          text="Text"
+          isExpanded={isExpanded}
+          onClick={() => {
+            navigate("/dashboard/document");
           }}
         />
       </div>

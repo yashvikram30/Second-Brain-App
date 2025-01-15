@@ -8,14 +8,13 @@ import Share from "../icons/Share";
 import { useContent } from "../hooks/useContent";
 import { useNavigate } from "react-router-dom";
 
-
-function Dashboard() {
+export default function DocumentDashboard() {
   // State management
-  // In Dashboard.tsx
+  // In Dashboard.tsxconst [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const { contents, refresh } = useContent();
-  const navigate = useNavigate();
 
   // Refresh content when modal state changes
   useEffect(() => {
@@ -80,19 +79,20 @@ function Dashboard() {
 
         {/* Content grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {contents.map((c) => (
-            <Card
-              key={c.link}
-              title={c.title}
-              link={c.link}
-              type={c.type}
-              content={c.content}
-            />
-          ))}
+          {contents
+            .filter((content) => content.type === "document")
+            .map((c) => (
+              <Card
+                key={c.link}
+                title={c.title}
+                content = {c.content}
+                type={c.type}
+                link={c.link}
+
+              />
+            ))}
         </div>
       </div>
     </div>
   );
 }
-
-export default Dashboard;

@@ -2,6 +2,7 @@ import Delete from "../../icons/Delete";
 import Twitter from "../../icons/Twitter";
 import Open from "../../icons/Open";
 import Youtube from "../../icons/Youtube";
+import Document from "../../icons/Document";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 interface CardProps {
   title: string;
   type: string;
-  link: string;
+  link?: string;
+  content?: string;
 }
 
-const Card = ({ title, link, type }: CardProps) => {
+const Card = ({ title, link, type, content }: CardProps) => {
 
   const navigate = useNavigate();
 
@@ -33,6 +35,7 @@ const Card = ({ title, link, type }: CardProps) => {
         <div className="flex items-center text-gray-500">
           {type === "twitter" && <Twitter size="md" />}
           {type === "youtube" && <Youtube size="md" />}
+          {type === "document" && <Document size="md"/>}
         </div>
         <div className="font-normal flex items-center">{title}</div>
 
@@ -56,7 +59,7 @@ const Card = ({ title, link, type }: CardProps) => {
         {type === "youtube" && (
           <iframe
             width="w-full"
-            src={link.replace("watch?v=", "embed/")}
+            src={link?.replace("watch?v=", "embed/")}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -67,8 +70,14 @@ const Card = ({ title, link, type }: CardProps) => {
 
         {type === "twitter" && (
           <blockquote className="twitter-tweet h-0 w-full">
-            <a href={link.replace("x.com", "twitter.com")}></a>
+            <a href={link?.replace("x.com", "twitter.com")}></a>
           </blockquote>
+        )}
+
+        {type === "document" && (
+          <div className="p-4 m-2 flex">
+            {content}
+          </div>
         )}
       </div>
     </div>
