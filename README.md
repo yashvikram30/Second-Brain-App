@@ -92,14 +92,14 @@ Contributions are always welcome!
 
 ##  🙏Acknowledgments
 
- # Technologies & Tools
+ ## Technologies & Tools
 
 React & TypeScript - Core frontend stack
 MongoDB & Express - Backend infrastructure
 TailwindCSS - UI styling
 Vite - Build tooling
 
- # Inspiration
+ ## Inspiration
 
 Building a Second Brain methodology by Tiago Forte
 Notion - For knowledge management concepts
