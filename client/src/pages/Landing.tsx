@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import Button from "../components/ui/Button";
 import { Brain, PenTool, Search, Share2 } from "lucide-react";
 
 export default function LandingPage() {
@@ -119,11 +118,9 @@ export default function LandingPage() {
                     placeholder="Enter your email"
                     type="email"
                   />
-                  <Button variant="primary" text="Sign Up" size="md" />
+                  <Link to="/signup" className="bg-gray-800 text-white hover:bg-gray-900 border rounded-md px-4 py-2">Signup</Link>
                 </form>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Start your free 14-day trial. No credit card required.
-                </p>
+                
                 <div className="flex items-center justify-center space-x-2 text-sm">
                   <span className="text-gray-500 dark:text-gray-400">
                     Already have an account?
