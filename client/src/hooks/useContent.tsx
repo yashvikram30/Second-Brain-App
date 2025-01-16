@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"; // Importing useEffect and useState
 import { BACKEND_URL } from "../config"; // Importing the backend URL from configuration
 
 interface Content {
+  contentId: string
   content: string | undefined;
   title: string;
   link: string;

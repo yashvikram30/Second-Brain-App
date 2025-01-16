@@ -130,8 +130,9 @@ app.post('/api/v1/signin', async (req: any, res: any) => {
 
 
 app.post('/api/v1/content',userMiddleware, async (req,res)=> {
-    const {link,type,title,content} = req.body;
+    const {contentId,link,type,title,content} = req.body;
     await Content.create({
+      contentId,
       link,
       type,
       title,
@@ -160,8 +161,9 @@ app.get('/api/v1/content',userMiddleware,async(req,res)=>{
 })
 
 
-app.delete('/api/v1/content',userMiddleware,async (req,res)=>{
-    const contentId = req.params;
+app.delete('/api/v1/content/:contentId',userMiddleware,async (req,res)=>{
+  try{
+    const contentId = req.params.contentId;
     await Content.deleteOne({
       contentId,
       // @ts-ignore
@@ -170,6 +172,13 @@ app.delete('/api/v1/content',userMiddleware,async (req,res)=>{
     res.json({
       message: "Deleted"
     })
+  }catch (error) {
+    res.status(500).json({
+      message: "Error deleting content",
+      // @ts-ignore
+      error: error.message
+    });
+  }
 })
 
 

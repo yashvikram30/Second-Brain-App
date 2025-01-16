@@ -4,6 +4,7 @@ import Button from "./ui/Button";
 import Input from "./ui/Input";
 import { BACKEND_URL } from "../config";
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 
 interface createContentInterface {
   open: boolean;
@@ -31,11 +32,12 @@ const CreateContentModel = ({ open, onClose }: createContentInterface) => {
     const title = titleRef.current?.value;
     const link = linkRef.current?.value;
     const content = contentRef.current?.value;
-
+    const contentId = uuidv4();
     //axios.post("Address",{data to be sent},{headers containing authentication})
     await axios.post(
       `${BACKEND_URL}/api/v1/content`,
       {
+        contentId,
         link,
         title,
         type,

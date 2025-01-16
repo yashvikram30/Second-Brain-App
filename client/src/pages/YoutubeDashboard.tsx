@@ -83,6 +83,7 @@ export default function YoutubeDashboard() {
             .filter((content) => content.type === "youtube")
             .map((content) => (
               <Card
+                contentId = {content.contentId}
                 key={content.link}
                 title={content.title}
                 link={content.link}

@@ -23,6 +23,7 @@ const userSchema = new Schema({
 export const User = mongoose.model('User', userSchema);
 
 const contentSchema = new Schema({
+  contentId: {type: String, required: true},
   link: { type: String },
   type: { type: String, required: true },
   title: { type: String, required: true },

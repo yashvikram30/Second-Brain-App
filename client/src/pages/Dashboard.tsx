@@ -10,10 +10,9 @@ import { useNavigate } from "react-router-dom";
 
 
 function Dashboard() {
-  // State management
-  // In Dashboard.tsx
   const [modalOpen, setModalOpen] = useState(false);
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  // we call the refresh and contents from the useContent hook, whose work is to fetch all the data from the backend
   const { contents, refresh } = useContent();
   const navigate = useNavigate();
 
@@ -82,6 +81,7 @@ function Dashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {contents.map((c) => (
             <Card
+              contentId = {c.contentId}
               key={c.link}
               title={c.title}
               link={c.link}

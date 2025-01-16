@@ -6,26 +6,28 @@ import Document from "../../icons/Document";
 import { BACKEND_URL } from "../../config";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+  
 interface CardProps {
+  contentId: string;
   title: string;
   type: string;
   link?: string;
   content?: string;
 }
 
-const Card = ({ title, link, type, content }: CardProps) => {
+const Card = ({contentId, title, link, type, content }: CardProps) => {
 
   const navigate = useNavigate();
 
   async function deleteContent() {
-    const token = localStorage.getItem("token");
-    await axios.delete(`${BACKEND_URL}/api/v1/content`, {
+    await axios.delete(`${BACKEND_URL}/api/v1/content/${contentId}`, {
+      // axios delete requires data property for body
       headers: {
-        authorization: token,
-      },
+        Authorization: localStorage.getItem("token")
+      }
     });
-    navigate(0); // this will immediately refresh the page as we delete the content
+    
+    navigate(0); // refresh the page
   }
 
   return (

@@ -83,6 +83,7 @@ export default function DocumentDashboard() {
             .filter((content) => content.type === "document")
             .map((c) => (
               <Card
+                contentId = {c.contentId}
                 key={c.link}
                 title={c.title}
                 content = {c.content}

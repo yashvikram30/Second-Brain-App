@@ -83,6 +83,7 @@ export default function TwitterDashboard() {
             .filter((content) => content.type === "twitter")
             .map((content) => (
               <Card
+                contentId = {content.contentId}
                 key={content.link}
                 title={content.title}
                 link={content.link}
