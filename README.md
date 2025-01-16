@@ -82,7 +82,7 @@ The application should now be running at `http://localhost:3000`
 - [ ] Enable offline mode
 - [ ] Add AI-powered content suggestions
 
-##  Contributing
+##  🤝Contributing
 
 Contributions are always welcome!
 
@@ -90,7 +90,7 @@ Contributions are always welcome!
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
-##  Acknowledgments
+##  🙏Acknowledgments
 
  # Technologies & Tools
 
