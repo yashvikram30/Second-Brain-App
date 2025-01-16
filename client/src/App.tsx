@@ -17,7 +17,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/dashboard/twitter" element={<TwitterDashboard />} />
         <Route path="/dashboard/youtube"  element={<YoutubeDashboard/>} />
-        <Route path="/dashboard/text" element={<DocumentDashboard/>}/>
+        <Route path="/dashboard/document" element={<DocumentDashboard/>}/>
       </Routes>
     </>
   );
