@@ -86,22 +86,8 @@ The application should now be running at `http://localhost:3000`
 
 Contributions are always welcome!
 
- ## Technologies & Tools
-
-React & TypeScript - Core frontend stack
-MongoDB & Express - Backend infrastructure
-TailwindCSS - UI styling
-Vite - Build tooling
-
- ## Inspiration
-
-Building a Second Brain methodology by Tiago Forte
-Notion - For knowledge management concepts
-Harkirat Singh for guiding the initials of this project
-
-
 ## 📞 Contact
 
-Your Name - [@Yash Vikram](https://x.com/yashvikram30)
+[@Yash Vikram](https://x.com/yashvikram30)
 
 Project Link: [https://github.com/yashvikram30/Second-Brain-App](https://github.com/yashvikram30/Second-Brain-App)
