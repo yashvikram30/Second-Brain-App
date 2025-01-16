@@ -86,12 +86,6 @@ The application should now be running at `http://localhost:3000`
 
 Contributions are always welcome!
 
-## 📄 License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-##  🙏Acknowledgments
-
  ## Technologies & Tools
 
 React & TypeScript - Core frontend stack
